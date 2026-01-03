@@ -13,13 +13,16 @@
             --secondary: #ff9e9e;
             --bg-color: #f7e6ff;
             --text-color: #555;
+            --heart-color: #ff8fa3;
         }
 
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); 
-            background: radial-gradient(circle at center, #ffe6f2, #e6ccff);
+            /* More dynamic background */
+            background: linear-gradient(45deg, #ffe6f2, #e6ccff, #fff0f5);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
             height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,92 +31,140 @@
             overflow: hidden;
         }
 
+        /* --- New Ambient Animations --- */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- Entrance Animations --- */
+        @keyframes slideUpIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes popIn {
+             0% { transform: scale(0); }
+             80% { transform: scale(1.2); }
+             100% { transform: scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity:0; } to { opacity:1; }
+        }
+
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 45px rgba(255, 105, 180, 0.2);
             max-width: 90%;
-            width: 400px;
+            width: 420px;
             position: relative;
             z-index: 10;
+            /* Entrance and ambient float animation */
+            animation: slideUpIn 1s ease-out forwards, floatCard 6s ease-in-out infinite 1s;
+            opacity: 0; /* Start hidden for entrance anim */
         }
 
         h1 {
             font-family: 'Pacifico', cursive;
             color: var(--primary);
-            font-size: 3rem;
+            font-size: 3.2rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+            text-shadow: 3px 3px 0px rgba(255, 182, 193, 0.3);
+            /* Bounce entrance with delay */
+            animation: bounceIn 1s both 0.5s;
         }
 
-        p {
+        p.message {
             color: var(--text-color);
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 35px;
+            /* Fade entrance with delay */
+            animation: fadeIn 1s both 1.2s;
         }
 
-        /* --- Pure CSS Cake Animation --- */
+        /* --- Cake Section --- */
+        .cake-wrapper {
+            height: 130px; /* Fixed height to prevent jumping when cake disappears */
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            /* Pop in entrance */
+            animation: popIn 0.8s both 0.2s;
+        }
+
         .cake-container {
             position: relative;
             width: 100px;
             height: 100px;
-            margin: 0 auto 30px auto;
+            transition: all 1s ease; /* Smooth disappearance */
         }
 
-        .cake {
-            position: absolute;
-            width: 100px;
-            height: 80px;
-            background: #ff9e9e;
-            bottom: 0;
-            border-radius: 10px 10px 0 0;
+        /* State when cake is blown out */
+        .cake-container.vanished {
+            transform: translateY(50px) scale(0.8);
+            opacity: 0;
         }
 
-        .cake:before {
-            content: '';
+        .wish-granted-msg {
             position: absolute;
-            background: #ffcccc;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Pacifico', cursive;
+            color: var(--primary);
+            font-size: 1.8rem;
+            opacity: 0;
+            transition: all 1s ease 0.5s; /* Delay appearance */
             width: 100%;
-            height: 20px;
-            top: 40px;
         }
 
-        .icing {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            top: -10px;
+        .wish-granted-msg.show {
+            opacity: 1;
+            top: 40%; /* Move up slightly */
         }
-        .icing:nth-child(2) { left: 20px; }
-        .icing:nth-child(3) { left: 40px; }
-        .icing:nth-child(4) { left: 60px; }
-        .icing:nth-child(5) { left: 80px; }
 
-        .candle {
-            position: absolute;
-            width: 10px;
-            height: 40px;
-            background: #66ccff;
-            left: 45px;
-            bottom: 80px;
-            border-radius: 5px 5px 0 0;
-        }
+        /* (Keep existing cake styles, just slight transition tweaks) */
+        .cake { position: absolute; width: 100px; height: 80px; background: var(--secondary); bottom: 0; border-radius: 10px 10px 0 0; }
+        .cake:before { content: ''; position: absolute; background: #ffcccc; width: 100%; height: 20px; top: 40px; }
+        .icing { position: absolute; width: 20px; height: 20px; background: var(--primary); border-radius: 50%; top: -10px; z-index: 2;}
+        .icing:nth-child(2) { left: 20px; } .icing:nth-child(3) { left: 40px; } .icing:nth-child(4) { left: 60px; } .icing:nth-child(5) { left: 80px; }
+        .candle { position: absolute; width: 10px; height: 40px; background: #66ccff; left: 45px; bottom: 80px; border-radius: 5px 5px 0 0; z-index: 1; }
 
         .flame {
             position: absolute;
-            width: 10px;
-            height: 15px;
+            width: 10px; height: 15px;
             background: #ffcc00;
             border-radius: 50% 50% 20% 20%;
-            top: -15px;
-            left: 0;
+            top: -15px; left: 0;
             animation: flicker 1s infinite alternate;
             box-shadow: 0 0 10px #ffcc00;
+            transition: all 0.5s ease; /* Smooth blow out */
+            transform-origin: center bottom;
+        }
+
+        /* State when flame is blown out */
+        .flame.blown-out {
+            transform: scale(0);
+            opacity: 0;
         }
 
         @keyframes flicker {
@@ -121,132 +172,147 @@
             100% { transform: scale(1.1); opacity: 0.8; }
         }
 
-        /* --- Button --- */
+        /* --- Button Animation --- */
+        .btn-container {
+            animation: fadeIn 1s both 1.5s;
+        }
         .btn {
-            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e, #ff6b6b);
+            background-size: 200% auto;
             color: white;
-            padding: 15px 30px;
+            padding: 15px 35px;
             border: none;
             border-radius: 50px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
             font-family: 'Pacifico', cursive;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+            animation: pulseBtn 2s infinite;
         }
 
         .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            background-position: right center;
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.5);
         }
 
-        .btn:active {
-            transform: scale(0.95);
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
         }
 
-        /* --- Balloons Background Animation --- */
-        .balloons {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-            pointer-events: none;
+        /* --- Background Elements (Balloons & Hearts) --- */
+        .bg-elements {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; pointer-events: none;
         }
-
-        .balloon {
-            position: absolute;
-            bottom: -100px;
-            width: 50px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: floatUp 10s linear infinite;
-        }
-
-        .balloon:nth-child(1) { left: 10%; background: rgba(255, 107, 107, 0.3); animation-duration: 8s; }
-        .balloon:nth-child(2) { left: 30%; background: rgba(102, 204, 255, 0.3); animation-duration: 12s; animation-delay: 2s; }
-        .balloon:nth-child(3) { left: 70%; background: rgba(255, 204, 0, 0.3); animation-duration: 10s; animation-delay: 1s; }
-        .balloon:nth-child(4) { left: 90%; background: rgba(153, 255, 153, 0.3); animation-duration: 14s; }
+        .floater { position: absolute; bottom: -100px; animation: floatUp linear infinite; opacity: 0.7; }
+        /* Balloons */
+        .balloon { width: 50px; height: 60px; border-radius: 50%; }
+        .b1 { left: 10%; background: rgba(255, 107, 107, 0.4); animation-duration: 12s; }
+        .b2 { left: 30%; background: rgba(102, 204, 255, 0.4); animation-duration: 15s; animation-delay: 2s; }
+        /* Hearts */
+        .heart { font-size: 3rem; color: var(--heart-color); }
+        .h1 { left: 50%; animation-duration: 10s; animation-delay: 1s; }
+        .h2 { left: 75%; animation-duration: 14s; animation-delay: 3s; color: #ff6b6b; }
+        .h3 { left: 85%; animation-duration: 11s; animation-delay: 0.5s; font-size: 2rem; }
 
         @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 1; }
-            100% { transform: translateY(-120vh); opacity: 0; }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(20deg); opacity: 0; }
         }
 
-        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="balloons">
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
-        <div class="balloon"></div>
+    <div class="bg-elements">
+        <div class="floater balloon b1"></div>
+        <div class="floater balloon b2"></div>
+        <div class="floater heart h1">❤️</div>
+        <div class="floater heart h2">💖</div>
+        <div class="floater heart h3">💕</div>
     </div>
 
     <div class="container">
-        <div class="cake-container">
-            <div class="cake">
-                <div class="icing"></div>
-                <div class="icing"></div>
-                <div class="icing"></div>
-                <div class="icing"></div>
-                <div class="icing"></div>
-                <div class="candle">
-                    <div class="flame"></div>
+        
+        <div class="cake-wrapper">
+            <div class="cake-container" id="cake">
+                <div class="cake">
+                    <div class="icing"></div><div class="icing"></div><div class="icing"></div><div class="icing"></div><div class="icing"></div>
+                    <div class="candle">
+                        <div class="flame" id="flame"></div>
+                    </div>
                 </div>
             </div>
+            <div class="wish-granted-msg" id="wishMsg">Wish Granted! ✨</div>
         </div>
 
         <h1>Happy Birthday Tota!</h1>
-        <p>To my favorite person in the world. May your day be as sweet as the cake and as bright as your smile. I love you! ❤️</p>
+        <p class="message">To my favorite person. May your day be filled with magic, laughter, and endless love. You deserve the world! ❤️</p>
         
-        <button class="btn" onclick="celebrate()">Make a Wish!</button>
+        <div class="btn-container">
+            <button class="btn" id="wishBtn" onclick="makeAWish()">Make a Wish & Blow!</button>
+        </div>
 
         <audio id="birthdaySong" loop>
             <source src="https://raw.githubusercontent.com/muhimasri/happy-birthday-song/master/Happy-Birthday-To-You.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
         </audio>
     </div>
 
     <script>
-        function celebrate() {
+        let wishMade = false;
+
+        function makeAWish() {
+            if (wishMade) return; // Prevent double clicking
+            wishMade = true;
+
             // 1. Play Music
             const audio = document.getElementById('birthdaySong');
-            audio.volume = 0.5; // Set volume to 50%
-            audio.play().catch(error => {
-                console.log("Audio playback failed (browser policy): ", error);
-            });
+            audio.volume = 0.4; 
+            audio.play().catch(e => console.log("Audio issue:", e));
 
-            // 2. Change Button Text
-            const btn = document.querySelector('.btn');
-            btn.innerHTML = "Enjoy the Party! 🥳";
-            
-            // 3. Trigger Confetti
+            // 2. Blow out candle animation
+            const flame = document.getElementById('flame');
+            flame.classList.add('blown-out');
+
+            // 3. Change button state
+            const btn = document.getElementById('wishBtn');
+            btn.innerHTML = "Yay! Party Time! 🥳";
+            btn.style.animation = "none"; // Stop the pulsing
+
+            // 4. After flame goes out, remove cake and show message
+            setTimeout(() => {
+                document.getElementById('cake').classList.add('vanished');
+                document.getElementById('wishMsg').classList.add('show');
+                launchConfetti();
+            }, 800); // Wait 0.8s for flame to blow out
+        }
+
+        function launchConfetti() {
+            // A more intense confetti explosion
             var duration = 5 * 1000;
             var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            var defaults = { startVelocity: 40, spread: 360, ticks: 100, zIndex: 0 };
 
-            var random = function(min, max) {
+            function randomInRange(min, max) {
               return Math.random() * (max - min) + min;
             }
 
             var interval = setInterval(function() {
               var timeLeft = animationEnd - Date.now();
+              if (timeLeft <= 0) return clearInterval(interval);
 
-              if (timeLeft <= 0) {
-                return clearInterval(interval);
-              }
-
-              var particleCount = 50 * (timeLeft / duration);
-              
-              // Create confetti from both sides
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
-              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
+              var particleCount = 80 * (timeLeft / duration);
+              // Shoot from center
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: 0.5, y: 0.5 } }));
             }, 250);
+
+            // Add a couple of big side cannons at the start
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6, x: 0.2 }, colors: ['#ff6b6b', '#ff9e9e', '#FFF'] });
+            confetti({ particleCount: 150, spread: 100, origin: { y: 0.6, x: 0.8 }, colors: ['#ff6b6b', '#ff9e9e', '#FFF'] });
         }
     </script>
 </body>
