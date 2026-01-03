@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Tota! ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ff9e9e;
+            --bg-color: #f7e6ff;
+            --text-color: #555;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%); 
+            background: radial-gradient(circle at center, #ffe6f2, #e6ccff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 90%;
+            width: 400px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+        }
+
+        p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        /* --- Pure CSS Cake Animation --- */
+        .cake-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px auto;
+        }
+
+        .cake {
+            position: absolute;
+            width: 100px;
+            height: 80px;
+            background: #ff9e9e;
+            bottom: 0;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .cake:before {
+            content: '';
+            position: absolute;
+            background: #ffcccc;
+            width: 100%;
+            height: 20px;
+            top: 40px;
+        }
+
+        .icing {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            top: -10px;
+        }
+        .icing:nth-child(2) { left: 20px; }
+        .icing:nth-child(3) { left: 40px; }
+        .icing:nth-child(4) { left: 60px; }
+        .icing:nth-child(5) { left: 80px; }
+
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 40px;
+            background: #66ccff;
+            left: 45px;
+            bottom: 80px;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .flame {
+            position: absolute;
+            width: 10px;
+            height: 15px;
+            background: #ffcc00;
+            border-radius: 50% 50% 20% 20%;
+            top: -15px;
+            left: 0;
+            animation: flicker 1s infinite alternate;
+            box-shadow: 0 0 10px #ffcc00;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        /* --- Button --- */
+        .btn {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Pacifico', cursive;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* --- Balloons Background Animation --- */
+        .balloons {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 50px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatUp 10s linear infinite;
+        }
+
+        .balloon:nth-child(1) { left: 10%; background: rgba(255, 107, 107, 0.3); animation-duration: 8s; }
+        .balloon:nth-child(2) { left: 30%; background: rgba(102, 204, 255, 0.3); animation-duration: 12s; animation-delay: 2s; }
+        .balloon:nth-child(3) { left: 70%; background: rgba(255, 204, 0, 0.3); animation-duration: 10s; animation-delay: 1s; }
+        .balloon:nth-child(4) { left: 90%; background: rgba(153, 255, 153, 0.3); animation-duration: 14s; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="balloons">
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+        <div class="balloon"></div>
+    </div>
+
+    <div class="container">
+        <div class="cake-container">
+            <div class="cake">
+                <div class="icing"></div>
+                <div class="icing"></div>
+                <div class="icing"></div>
+                <div class="icing"></div>
+                <div class="icing"></div>
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+            </div>
+        </div>
+
+        <h1>Happy Birthday Tota!</h1>
+        <p>To my favorite person in the world. May your day be as sweet as the cake and as bright as your smile. I love you! ❤️</p>
+        
+        <button class="btn" onclick="celebrate()">Make a Wish!</button>
+
+        <audio id="birthdaySong" loop>
+            <source src="https://raw.githubusercontent.com/muhimasri/happy-birthday-song/master/Happy-Birthday-To-You.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        function celebrate() {
+            // 1. Play Music
+            const audio = document.getElementById('birthdaySong');
+            audio.volume = 0.5; // Set volume to 50%
+            audio.play().catch(error => {
+                console.log("Audio playback failed (browser policy): ", error);
+            });
+
+            // 2. Change Button Text
+            const btn = document.querySelector('.btn');
+            btn.innerHTML = "Enjoy the Party! 🥳";
+            
+            // 3. Trigger Confetti
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var random = function(min, max) {
+              return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+              var timeLeft = animationEnd - Date.now();
+
+              if (timeLeft <= 0) {
+                return clearInterval(interval);
+              }
+
+              var particleCount = 50 * (timeLeft / duration);
+              
+              // Create confetti from both sides
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 } }));
+              confetti(Object.assign({}, defaults, { particleCount, origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
